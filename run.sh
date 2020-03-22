@@ -1,9 +1,13 @@
 #!/bin/bash
 
 
-if [[ $# -ne 1 ]]; then
-    echo "Usage: ./run.sh [image file]"
+if [[ $# -eq 0 ]]; then
+    echo "Usage: ./run.sh [image file] [gdb]"
     exit 1
 fi
 
-make run IMG_FILE=$1
+if [[ $# -eq 2 ]] && [[ $2 == "gdb" ]]; then
+    make debug IMG_FILE=$1
+else
+    make run IMG_FILE=$1
+fi
