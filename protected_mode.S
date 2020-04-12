@@ -49,7 +49,7 @@ waitkdb3:
     jnz waitkdb3
 
 ; load gdt
-    lgdt [gdbdesc]
+    lgdt [gdtdesc]
 
 ; Set PE bit to 1
     mov eax, cr0
@@ -57,6 +57,7 @@ waitkdb3:
     mov cr0, eax
 
 ; Enter protected mode
+; Point to second GDT entry (code segment descriptor)
     jmp (2 << 3):protected
 
 protected:
@@ -71,13 +72,10 @@ gdt:
     gdtentry RW, 0x00000000, 0xffffffff
     gdtentry Ex, 0x00000000, 0xffffffff
 
-gdbdesc:
+gdtdesc:
     dw 8 * 3 - 1 ; size
     dd gdt ; offset
 
-
-message:
-    db  "Welcome to protected mode!"
 
 times 510 - ($ - $$) db 0x00
 
