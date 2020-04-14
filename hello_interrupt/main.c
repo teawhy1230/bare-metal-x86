@@ -41,9 +41,8 @@ void _start(void) {
     disable_pic();
     // initialize idt
     initidt();
-    set_trap(32, show_message);
 
     sti();
 
-    __asm__ volatile ("int 32; hlt");
+    __asm__ volatile ("int 80; hlt");
 }

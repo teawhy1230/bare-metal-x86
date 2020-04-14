@@ -8,15 +8,15 @@ LDFLAGS = -m elf_i386
 
 all: $(image)
 
-$(image): bootasm.o bootc.o traptest
+$(image): bootasm.o bootc.o traptest.elf
 	$(LD) $(LDFLAGS) -T hello_int.ld -o hello_int.elf $(filter %.o,$^)
 	objcopy -S -j .text -j .sign -O binary hello_int.elf hello_int.img
-	cat traptest >> hello_int.img
+	cat traptest.elf >> hello_int.img
 
 bootasm.o: bootasm.S
 	nasm -f elf32 $<
 
-traptest: main.o trap.o
+traptest.elf: main.o trap.o
 	$(CC) $(CFLAGS) -T traptest.ld -o $@ $^
 
 # bootc.o: bootc.c
@@ -35,6 +35,6 @@ gdb:
 	gdb -q -x ../cmd.gdb -x cmd.gdb
 
 clean:
-	rm -f $(image) bootasm.o bootc.o traptest main.o trap.o hello_int.img hello_int.elf
+	rm -f $(image) bootasm.o bootc.o traptest main.o trap.o hello_int.img hello_int.elf traptest.elf
 
 -include *.d
