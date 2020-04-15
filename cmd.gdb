@@ -10,4 +10,11 @@ echo [code]\n
 x/24i $eip
 end
 
+define hook-stop
+context
+end
+
+
+set pagination off
+
 c
