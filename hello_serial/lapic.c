@@ -36,6 +36,8 @@ void eoi(void) {
 
 
 void initlapic(void) {
+    write_lapic(LA_ID, 0x0);
+
     write_lapic(LA_SIV, (T_IRQ_BASE + IRQ_SPURIOUS) | LA_ENABLE);
 
     // Disable lvts that we're not going to use

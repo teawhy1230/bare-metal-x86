@@ -16,5 +16,6 @@ int puts(const char *s) {
     for (i = 0; i < len; i++) {
         uartputc(s[i]);
     }
+    uartputc('\n');
     return 1;
 }

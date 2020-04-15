@@ -2,7 +2,10 @@
 #include "asm.h"
 
 #define COM1 0x3f8
+#define UART_STAT_REG_READY (1 << 0)
 #define UART_STAT_REG_EMPTY (1 << 5)
+
+#define DEL 0x7f
 
 
 static void delay() {
@@ -22,8 +25,8 @@ void inituart(void) {
     outb(COM1 + 3, 0x03);
     // Clear modem control register (no idea why)
     outb(COM1 + 4, 0);
-    // Disable interrupt
-    outb(COM1 + 1, 0);
+    // Enable interrupt
+    outb(COM1 + 1, 0x01);
 
     // read from interrupt identification register
     inb(COM1 + 2);
@@ -37,4 +40,31 @@ void uartputc(char ch) {
         delay();
 
     outb(COM1 + 0, ch);
+}
+
+
+int uartgetc(void) {
+    int ret;
+    if (!(inb(COM1 + 5) & UART_STAT_REG_READY))
+        return -1;
+    ret = inb(COM1 + 0);
+    if (ret == '\r') {
+        ret = '\n';
+    }
+    return ret;
+}
+
+
+int handle_uartintr(void) {
+    int ret = uartgetc();
+    // echo back input from keyboard
+    // so it will be shown on the console
+    if (ret == DEL) {
+        uartputc('\b');
+        uartputc(' ');
+        uartputc('\b');
+    } else {
+        uartputc(ret);
+    }
+    return ret;
 }

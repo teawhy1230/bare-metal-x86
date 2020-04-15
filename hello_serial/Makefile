@@ -4,7 +4,7 @@ boot_objs = bootasm.o bootc.o
 boot_ld = hello_serial.ld
 
 main_elf = serialtest.elf
-main_objs = main.o trap.o lapic.o io.o uart.o vector.o 
+main_objs = main.o trap.o lapic.o io.o uart.o ioapic.o vector.o
 main_ld = serialtest.ld
 
 CC = gcc

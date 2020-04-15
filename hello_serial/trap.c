@@ -1,6 +1,7 @@
 #include "trap.h"
 #include "int.h"
 #include "lapic.h"
+#include "uart.h"
 #include "asm.h"
 #include "io.h"
 
@@ -54,6 +55,10 @@ void handle_trap(int trapno) {
             eoi();
             break;
         case T_IRQ_BASE + IRQ_SPURIOUS:
+            eoi();
+            break;
+        case T_IRQ_BASE + IRQ_SERIAL:
+            handle_uartintr();
             eoi();
             break;
         default:
