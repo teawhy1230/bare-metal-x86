@@ -44,6 +44,6 @@ gdb:
 	gdb -q -x ../cmd.gdb -x cmd.gdb
 
 clean:
-	rm -f $(image) $(boot_objs) $(boot_elf) $(main_elf) $(main_objs)
+	rm -f $(image) $(boot_objs) $(boot_elf) $(main_elf) $(main_objs) vector.S
 
 -include *.d
