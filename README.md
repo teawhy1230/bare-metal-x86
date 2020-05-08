@@ -10,3 +10,4 @@ Simple bare metal programs to learn low level programming in x86.
 | [hello_interrupt](hello_interrupt) | Display hello world using interrupt |
 | [hello_timer](hello_timer) | Count down timer |
 | [hello_serial](hello_serial) | Input and output with serial communication |
+| [hello_paging](hello_paging) | Execute program with virtual memory |
